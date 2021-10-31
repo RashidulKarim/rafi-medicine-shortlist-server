@@ -21,7 +21,7 @@ const run = async() =>{
 
     //get all product from DB
     app.get("/products", async(req, res)=>{
-        const result = await collection.find({}).toArray()
+        const result = await collection.find({}).sort({"company": 1}).toArray()
         res.send(result) 
     })
     
@@ -40,6 +40,9 @@ const run = async() =>{
         const result = await collection.deleteOne(id)
         res.send(result)
     })
+
+    // find by sorting
+
     //update status
     app.put('/product/:id', async(req, res)=>{
         const query = req.params.id 
