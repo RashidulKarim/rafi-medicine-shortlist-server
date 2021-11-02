@@ -32,6 +32,13 @@ const run = async() =>{
         console.log(result)
         res.send(result)
     })
+    //add many product
+    app.post('/addProducts', async(req, res)=>{
+        const product = req.body.productsCollection
+        const result = await collection.insertMany(product)
+        console.log(result)
+        res.send(result)
+    })
     
     //delete a product
     app.delete('/product/:id', async(req, res)=>{
