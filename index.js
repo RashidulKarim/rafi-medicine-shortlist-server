@@ -47,6 +47,17 @@ const run = async() =>{
         res.send(result)
     })
 
+    //delete many item product
+    app.delete('/product', async(req, res)=>{
+        const query = req.body 
+        const data = query.map(pd =>{
+            return ObjectId(pd._id)
+        })
+        
+        const result = await collection.deleteMany({_id: {$in: data}})
+        res.send(result)        
+    })
+
     // find by sorting
 
     //update status
