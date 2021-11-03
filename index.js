@@ -26,17 +26,16 @@ const run = async() =>{
     })
     
     //post a product
-    app.post('/addProduct', async(req, res)=>{
-        const product = req.body.productInfo
-        const result = await collection.insertOne(product)
-        console.log(result)
-        res.send(result)
-    })
+    // app.post('/addProduct', async(req, res)=>{
+    //     const product = req.body.productInfo
+    //     const result = await collection.insertOne(product)
+    //     console.log(result)
+    //     res.send(result)
+    // })
     //add many product
     app.post('/addProducts', async(req, res)=>{
         const product = req.body.productsCollection
         const result = await collection.insertMany(product)
-        console.log(result)
         res.send(result)
     })
     
@@ -67,7 +66,7 @@ const run = async() =>{
     app.get('/products/:company', async(req, res)=>{
         const query = req.params.company
         const company = {company: (query)}
-        const result = await collection.find(company).toArray()
+        const result = await collection.find(company).sort({"name": 1}).toArray()
         res.send(result)
         
         
