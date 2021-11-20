@@ -65,7 +65,7 @@ const run = async() =>{
         const params = req.params.id 
         const query = req.query.status
           
-        const id = {_id: ObjectId(query)}
+        const id = {_id: ObjectId(params)}
         const updateDoc = {
             $set: {
               status: query
