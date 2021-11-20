@@ -62,11 +62,13 @@ const run = async() =>{
 
     //update status
     app.put('/product/:id', async(req, res)=>{
-        const query = req.params.id 
+        const params = req.params.id 
+        const query = req.query.status
+          
         const id = {_id: ObjectId(query)}
         const updateDoc = {
             $set: {
-              status: "complete"
+              status: query
             },
           };      
         const result = await collection.updateOne(id, updateDoc)
