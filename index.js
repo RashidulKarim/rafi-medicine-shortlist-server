@@ -73,6 +73,20 @@ const run = async() =>{
         res.send(result)
     })
 
+    //update status
+    app.put('/productQuantity/:id', async(req, res)=>{
+        const params = req.params.id 
+        const query = req.query.quantity        
+        const id = {_id: ObjectId(params)}
+        const updateDoc = {
+            $set: {
+              quantity: query
+            },
+          };      
+        const result = await collection.updateOne(id, updateDoc)
+        res.send(result)
+    })
+
     //find by company name
     app.get('/products/:company', async(req, res)=>{
         const query = req.params.company
