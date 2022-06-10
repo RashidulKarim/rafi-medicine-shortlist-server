@@ -18,6 +18,7 @@ const run = async() =>{
     await client.connect()
     const database = client.db(process.env.DB_NAME)
     const collection = database.collection("products")
+    const deletedProduct = database.collection("deletedProducts")
 
     //get all product from DB
     app.get("/products", async(req, res)=>{
@@ -44,6 +45,9 @@ const run = async() =>{
         const query = req.params.id 
         const id = {_id: ObjectId(query)}        
         const result = await collection.deleteOne(id)
+        if (result.deletedCount > 0) {
+            await deletedProduct.insertMany(product)
+        }
         res.send(result)
     })
 
@@ -55,6 +59,27 @@ const run = async() =>{
         })
         
         const result = await collection.deleteMany({_id: {$in: data}})
+        if (result.deletedCount > 0) {
+            await deletedProduct.insertMany(product)
+        }
+        res.send(result)
+    })
+
+
+    //update many items
+    app.put('/update', async(req, res)=>{
+        const query = req.body 
+        
+        // make an array for bulk update
+        const data = query.map(pd =>{
+            return {
+                updateOne: {
+                    filter: {_id: ObjectId(pd._id)},
+                    update: {$set: {status: pd.status}}
+                }
+            }
+        })
+        const result = await collection.bulkWrite(data)
         res.send(result)        
     })
 
@@ -75,7 +100,7 @@ const run = async() =>{
         res.send(result)
     })
 
-    //update status
+    //update quantity status
     app.put('/productQuantity/:id', async(req, res)=>{
         const params = req.params.id 
         const query = req.query.quantity        
@@ -95,7 +120,6 @@ const run = async() =>{
         const company = {company: (query)}
         const result = await collection.find(company).sort({"name": 1}).toArray()
         res.send(result)
-        
         
     })
 }
