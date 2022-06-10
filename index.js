@@ -55,9 +55,6 @@ const run = async() =>{
         const query = req.params.id 
         const id = {_id: ObjectId(query)}        
         const result = await collection.deleteOne(id)
-        if (result.deletedCount > 0) {
-            await deletedProduct.insertMany(product)
-        }
         res.send(result)
     })
 
@@ -69,9 +66,6 @@ const run = async() =>{
         })
         
         const result = await collection.deleteMany({_id: {$in: data}})
-        if (result.deletedCount > 0) {
-            await deletedProduct.insertMany(product)
-        }
         res.send(result)
     })
 
