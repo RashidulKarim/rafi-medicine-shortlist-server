@@ -6,8 +6,18 @@ const ObjectId = require('mongodb').ObjectId
 require('dotenv').config()
 
 const port = process.env.PORT || 5000;
-
-app.use(cors())
+const whitelist = ["https://rafi-medicine.web.app"]
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error("Not allowed by CORS"))
+    }
+  },
+  credentials: true,
+}
+app.use(cors(corsOptions))
 app.use(express.json())
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.wbvsa.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
