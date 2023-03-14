@@ -19,10 +19,7 @@ const corsOptions = {
 }
 app.use(cors(corsOptions))
 app.use(express.json())
-app.listen(port, ()=>{
-  console.log("Listening from port", port)
-  
-})
+
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.wbvsa.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 
@@ -138,11 +135,16 @@ const run = async() =>{
   }
 }
 
-run().catch((err)=> console.log(err)
-
-)
+run().then(() => {
+  console.log("Database connected");
+  app.listen(port, ()=>{
+    console.log("Listening from port", port)
+    
+  })
+})
 
 app.get('/', (req, res)=>{
     res.send("Welcome to Rafi Medicine center shortlist server")
 })
+
 
