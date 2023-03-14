@@ -29,6 +29,8 @@ const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 const run = async() =>{
+  try {
+    
     await client.connect()
     const database = client.db(process.env.DB_NAME)
     const collection = database.collection("products")
@@ -130,6 +132,10 @@ const run = async() =>{
         res.send(result)
         
     })
+  } catch (error) {
+    console.log(error);
+    process.exit(1)
+  }
 }
 
 run().catch((err)=> console.log(err)
