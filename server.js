@@ -35,7 +35,7 @@ const run = async() =>{
     const database = client.db(process.env.DB_NAME)
     const collection = database.collection("products")
     const deletedProduct = database.collection("deletedProducts")
-
+    console.log("Database connected");
     //get all product from DB
     app.get("/products", async(req, res)=>{
         const result = await collection.find({}).sort({"company": 1}).toArray()
