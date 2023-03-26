@@ -6,7 +6,7 @@ const ObjectId = require('mongodb').ObjectId
 require('dotenv').config()
 
 const port = process.env.PORT || 5000;
-const whitelist = ["https://rafi-medicine.web.app"]
+const whitelist = ["https://rafi-medicine.web.app", "https://rafimeds.web.app"]
 const corsOptions = {
   origin: function (origin, callback) {
     if (!origin || whitelist.indexOf(origin) !== -1) {
@@ -17,7 +17,7 @@ const corsOptions = {
   },
   credentials: true,
 }
-app.use(cors({ origin: 'https://rafimeds.web.app' }))
+app.use(cors(corsOptions))
 app.use(express.json())
 
 
